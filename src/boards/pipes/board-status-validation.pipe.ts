@@ -1,6 +1,7 @@
-import { BadRequestException, PipeTransform } from '@nestjs/common';
-import { BoardStatus } from '../board.model';
+import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import { BoardStatus } from '../board-status.enum';
 
+@Injectable()
 export class BoardStatusValidationPipe implements PipeTransform {
   readonly StatusOption = [BoardStatus.PRIVATE, BoardStatus.PUBLIC];
 
