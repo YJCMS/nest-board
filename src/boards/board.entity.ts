@@ -3,10 +3,11 @@ import {
   Column,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { BoardStatus } from './board-status.enum';
 import { User } from '../auth/user.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity()
 export class Board extends BaseEntity {
@@ -17,11 +18,11 @@ export class Board extends BaseEntity {
   title: string;
 
   @Column()
-  description: string;
-
-  @Column()
-  status: BoardStatus;
+  content: string;
 
   @ManyToOne(() => User, (user) => user.boards, { eager: false })
   user: User;
+
+  @OneToMany(() => Comment, (comment) => comment.board)
+  comments: Comment[];
 }

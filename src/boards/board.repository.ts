@@ -2,7 +2,6 @@ import { DataSource, Repository } from 'typeorm';
 import { Board } from './board.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateBoardDto } from './dto/createBoardDto.dto';
-import { BoardStatus } from './board-status.enum';
 import { User } from '../auth/user.entity';
 
 @Injectable()
@@ -15,11 +14,10 @@ export class BoardRepository extends Repository<Board> {
     createBoardDto: CreateBoardDto,
     user: User,
   ): Promise<Board> {
-    const { title, description } = createBoardDto;
+    const { title, content } = createBoardDto;
     const board = this.create({
       title,
-      description,
-      status: BoardStatus.PUBLIC,
+      content: content,
       user,
     });
 
