@@ -3,6 +3,7 @@ import { BoardStatus } from './board-status.enum';
 import { CreateBoardDto } from './dto/createBoardDto.dto';
 import { BoardRepository } from './board.repository';
 import { Board } from './board.entity';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class BoardsService {
@@ -16,8 +17,8 @@ export class BoardsService {
   // }
   //
 
-  createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    return this.boardRepository.createBoard(createBoardDto);
+  createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board> {
+    return this.boardRepository.createBoard(createBoardDto, user);
   }
   // createBoard(creatBoardDto: CreateBoardDto): Board {
   //   const { title, description } = creatBoardDto;
@@ -52,9 +53,8 @@ export class BoardsService {
   // }
   //
 
-  async deleteBoard(id: number): Promise<void> {
-    const result = await this.boardRepository.delete(id); // 데이터 있으면 삭제하고, 없으면 영향없음
-
+  async deleteBoard(id: number, user: User): Promise<void> {
+    const result = await this.boardRepository.delete({ id, user }); // 데이터 있으면 삭제하고, 없으면 영향없음
     if (result.affected === 0) {
       throw new NotFoundException('cannot find Board with id {id}');
     }
